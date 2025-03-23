@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WorkSense | MIG Welding Assessment</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #3f3f3f;
+      color: #e2e2e2;
+      margin: 0;
+      padding: 40px;
+    }
+    h1 {
+      text-align: center;
+      color: #77c9f1;
+    }
+    .question {
+      background-color: #444;
+      border: 1px solid #555;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 25px;
+    }
+    .question h3 {
+      margin-bottom: 10px;
+    }
+    .option {
+      display: block;
+      margin: 5px 0;
+    }
+    button {
+      background-color: #389cd6;
+      border: none;
+      color: white;
+      padding: 12px 25px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: block;
+      margin: 30px auto;
+    }
+    #result {
+      text-align: center;
+      font-size: 24px;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔍 MIG Welding Skills Assessment</h1>
+  <form id="testForm">
+    <div id="questions"></div>
+    <button type="submit">Submit</button>
+  </form>
+  <div id="result"></div>
+
+  <script>
+    const questions = [
+      {
+        number: 1,
+        text: "What is the primary shielding gas used for MIG welding mild steel?",
+        options: ["100% Argon", "75% Argon / 25% CO2", "100% CO2", "90% Helium / 10% Argon"],
+        correct: "B"
+      },
+      {
+        number: 2,
+        text: "Which type of metal transfer is most commonly used in MIG welding for thin sheet metal?",
+        options: ["Spray transfer", "Globular transfer", "Short-circuit transfer", "Pulsed spray transfer"],
+        correct: "C"
+      },
+      {
+        number: 3,
+        text: "What is the recommended distance for maintaining a proper stick-out when MIG welding?",
+        options: ["1/8 inch to 1/4 inch", "3/4 inch to 1 inch", "1/2 inch to 3/4 inch", "1/4 inch to 1/2 inch"],
+        correct: "A"
+      },
+      {
+        number: 4,
+        text: "What is the first step before starting any MIG welding project?",
+        options: ["Turn on the shielding gas", "Check wire tension and feed settings", "Inspect and clean the base metal", "Strike an arc to test the settings"],
+        correct: "C"
+      },
+      {
+        number: 5,
+        text: "If a MIG welder is experiencing excessive spatter, what should be adjusted first?",
+        options: ["Increase wire feed speed", "Lower voltage slightly", "Reduce gas flow rate", "Switch to a smaller diameter wire"],
+        correct: "B"
+      },
+      {
+        number: 6,
+        text: "What can cause erratic wire feeding during MIG welding?",
+        options: ["Excessive voltage", "Incorrect drive roll tension", "Too much shielding gas flow", "Using flux-core wire without shielding gas"],
+        correct: "B"
+      },
+      {
+        number: 7,
+        text: "What is the most common cause of porosity in a MIG weld?",
+        options: ["Too high of a voltage setting", "Improper shielding gas coverage", "Slow travel speed", "Excessive wire stick-out"],
+        correct: "B"
+      },
+      {
+        number: 8,
+        text: "A weld appears to have incomplete fusion at the joint. What is the likely cause?",
+        options: ["Too much shielding gas", "Travel speed too fast", "Holding the gun at a 90-degree angle", "Using too low of a voltage setting"],
+        correct: "D"
+      },
+      {
+        number: 9,
+        text: "When welding in a vertical-up position, how should the travel angle be adjusted?",
+        options: ["Push the weld with a slight backhand angle", "Use a 90-degree gun angle with no movement", "Move in a zigzag or weave motion to control heat", "Keep the wire feed at maximum speed"],
+        correct: "C"
+      }
+    ];
+
+    const letters = ["A", "B", "C", "D"];
+    const container = document.getElementById("questions");
+
+    questions.forEach((q) => {
+      const div = document.createElement("div");
+      div.classList.add("question");
+      div.innerHTML = `<h3>${q.number}. ${q.text}</h3>`;
+      q.options.forEach((opt, i) => {
+        div.innerHTML += `<label class="option"><input type="radio" name="q${q.number}" value="${letters[i]}" required> ${opt}</label>`;
+      });
+      container.appendChild(div);
+    });
+
+    document.getElementById("testForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      let score = 0;
+      questions.forEach((q) => {
+        const selected = document.querySelector(`input[name=q${q.number}]:checked`).value;
+        if (selected === q.correct) score++;
+      });
+      const percentage = Math.round((score / questions.length) * 100);
+      let feedback = "";
+      if (percentage >= 90) feedback = "Expert-level MIG skills!";
+      else if (percentage >= 70) feedback = "Good MIG welding knowledge.";
+      else if (percentage >= 50) feedback = "Some understanding, needs improvement.";
+      else feedback = "More training and hands-on experience recommended.";
+
+      document.getElementById("result").innerHTML = `<p>Your MIG Welding Score: <strong>${percentage}%</strong></p><p>${feedback}</p>`;
+    });
+  </script>
+</body>
+</html>

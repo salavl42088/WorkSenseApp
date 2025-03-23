@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WorkSense | MIG + TIG Assessment</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #3f3f3f;
+      color: #e2e2e2;
+      margin: 0;
+      padding: 40px;
+    }
+    h1 {
+      text-align: center;
+      color: #77c9f1;
+    }
+    .question {
+      background-color: #444;
+      border: 1px solid #555;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 25px;
+    }
+    .question h3 {
+      margin-bottom: 10px;
+    }
+    .option {
+      display: block;
+      margin: 5px 0;
+    }
+    button {
+      background-color: #389cd6;
+      border: none;
+      color: white;
+      padding: 12px 25px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: block;
+      margin: 30px auto;
+    }
+    #result {
+      text-align: center;
+      font-size: 24px;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <h1>⚡ MIG + TIG Combo Assessment</h1>
+  <form id="testForm">
+    <div id="questions"></div>
+    <button type="submit">Submit</button>
+  </form>
+  <div id="result"></div>
+
+  <script>
+    const questions = [
+      {
+        number: 1,
+        text: "You have a deadline but run low on welding rods halfway through. What's your next move?",
+        options: ["Take a break and wait for supplies", "Immediately inform your supervisor and request more rods", "Use another type of rod without approval"],
+        correct: "B"
+      },
+      {
+        number: 2,
+        text: "You notice a coworker consistently leaves a messy workspace. What do you do?",
+        options: ["Report them directly to the manager", "Politely remind them about maintaining cleanliness", "Clean it up yourself without mentioning it"],
+        correct: "B"
+      },
+      {
+        number: 3,
+        text: "You're welding overhead and molten slag is frequently dropping. How do you handle this?",
+        options: ["Take frequent breaks", "Adjust your PPE and welding position", "Avoid overhead welding tasks altogether"],
+        correct: "B"
+      },
+      {
+        number: 4,
+        text: "Your coworker isn't wearing eye protection while welding. How do you respond?",
+        options: ["Ignore it", "Remind them politely about safety", "Immediately report them to management"],
+        correct: "B"
+      },
+      {
+        number: 5,
+        text: "You notice a gas leak on your MIG setup. What's your immediate action?",
+        options: ["Finish welding quickly and then handle it", "Immediately shut off gas and notify supervisor", "Continue welding and check later"],
+        correct: "B"
+      },
+      {
+        number: 6,
+        text: "What does a dashed line indicate on welding blueprints?",
+        options: ["Weld immediately", "Hidden edge/object", "Optional weld"],
+        correct: "B"
+      },
+      {
+        number: 7,
+        text: "Your tape measure shows '14 3/8 inches.' How do you accurately mark this?",
+        options: ["Round down to 14 inches", "Mark precisely at 14 3/8 inches", "Estimate between 14 and 15 inches"],
+        correct: "B"
+      },
+      {
+        number: 8,
+        text: "Your MIG weld shows excessive spatter. What adjustment usually helps?",
+        options: ["Increase voltage significantly", "Adjust shielding gas flow", "Lower wire-feed speed slightly"],
+        correct: "C"
+      },
+      {
+        number: 9,
+        text: "What's causing 'bird-nesting' inside your MIG welder?",
+        options: ["Voltage set too high", "Incorrect wire tension or drive-roll setting", "Welding speed too slow"],
+        correct: "B"
+      }
+    ];
+
+    const letters = ["A", "B", "C", "D"];
+    const container = document.getElementById("questions");
+
+    questions.forEach((q) => {
+      const div = document.createElement("div");
+      div.classList.add("question");
+      div.innerHTML = `<h3>${q.number}. ${q.text}</h3>`;
+      q.options.forEach((opt, i) => {
+        div.innerHTML += `<label class="option"><input type="radio" name="q${q.number}" value="${letters[i]}" required> ${opt}</label>`;
+      });
+      container.appendChild(div);
+    });
+
+    document.getElementById("testForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      let score = 0;
+      questions.forEach((q) => {
+        const selected = document.querySelector(`input[name=q${q.number}]:checked`).value;
+        if (selected === q.correct) score++;
+      });
+      const percentage = Math.round((score / questions.length) * 100);
+      let feedback = "";
+      if (percentage >= 90) feedback = "Excellent MIG and TIG awareness!";
+      else if (percentage >= 70) feedback = "Solid foundational skills in MIG and TIG.";
+      else if (percentage >= 50) feedback = "Developing MIG/TIG knowledge. More experience recommended.";
+      else feedback = "Needs more training in welding techniques and safety.";
+
+      document.getElementById("result").innerHTML = `<p>Your MIG+TIG Assessment Score: <strong>${percentage}%</strong></p><p>${feedback}</p>`;
+    });
+  </script>
+</body>
+</html>
